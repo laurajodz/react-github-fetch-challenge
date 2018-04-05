@@ -15,4 +15,15 @@ export const fetchReposError = error => ({
     error
 });
 
-export const fetchRepos = null; // Write me!
+
+export const fetchRepos = () => dispatch => {
+    dispatch(fetchReposRequest());
+    fetch('https://api.github.com/users/dhh/repos')
+        .then(res => res.json())
+        .then(repos => {
+            dispatch(fetchReposSuccess(repos));
+        })
+        .catch(error => {
+            dispatch(fetchReposError(error));
+        });
+};
